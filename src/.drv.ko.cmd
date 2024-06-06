@@ -1,1 +1,0 @@
-cmd_/home/book/00_linux/05_driver/src/drv.ko := arm-buildroot-linux-gnueabihf-ld -EL -r  -T ./scripts/module-common.lds --build-id  -o /home/book/00_linux/05_driver/src/drv.ko /home/book/00_linux/05_driver/src/drv.o /home/book/00_linux/05_driver/src/drv.mod.o ;  true

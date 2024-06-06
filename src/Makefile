@@ -1,34 +1,35 @@
+# 设置默认内核路径，可以在调用 make 时覆盖
+KERN_DIR ?= /home/book/100ask_imx6ull-sdk/Linux-4.9.88
 
-# 1. 使用不同的开发板内核时, 一定要修改KERN_DIR
-# 2. KERN_DIR中的内核要事先配置、编译, 为了能编译内核, 要先设置下列环境变量:
-# 2.1 ARCH,          比如: export ARCH=arm64
-# 2.2 CROSS_COMPILE, 比如: export CROSS_COMPILE=aarch64-linux-gnu-
-# 2.3 PATH,          比如: export PATH=$PATH:/home/book/100ask_roc-rk3399-pc/ToolChain-6.3.1/gcc-linaro-6.3.1-2017.05-x86_64_aarch64-linux-gnu/bin 
-# 注意: 不同的开发板不同的编译器上述3个环境变量不一定相同,
-#       请参考各开发板的高级用户使用手册
-
-KERN_DIR = /home/book/100ask_imx6ull-sdk/Linux-4.9.88
-
+# 获取当前路径
 PWD := $(shell pwd)
 
+# 模块名和测试名
+module_name = drv
+test_name = drv_test
+
+# 挂载目录路径
+mnt_directory = /home/book/remote/mnt_imx6ull
+
+# 环境变量设置
+ARCH ?= arm
+CROSS_COMPILE ?= arm-buildroot-linux-gnueabihf-
+
+# 构建所有目标
 all:
 	$(MAKE) -C $(KERN_DIR) M=$(PWD) modules 
-	$(CROSS_COMPILE)gcc -o drv_test drv_test.c 
+	$(CROSS_COMPILE)gcc -o $(test_name) $(test_name).c 
 
+# 清理生成的文件
 clean:
 	$(MAKE) -C $(KERN_DIR) M=$(PWD) clean
-	rm -rf modules.order
-	rm -f drv_test
+	rm -rf modules.order Module.symvers $(module_name).mod.c
+	rm -f $(module_name).ko $(test_name)
 
-# 参考内核源码drivers/char/ipmi/Makefile
-# 要想把a.c, b.c编译成ab.ko, 可以这样指定:
-# ab-y := a.o b.o
-# obj-m += ab.o
+# 拷贝模块到指定目录
+cp:
+	mkdir -p $(mnt_directory)
+	cp $(module_name).ko $(mnt_directory)
 
-# leddrv.c board_demo.c 编译成 100ask.ko
-# 100ask_led-y := leddrv.o board_demo.o
-obj-m	+= drv.o
-
-
-
-
+# 模块编译配置
+obj-m += $(module_name).o

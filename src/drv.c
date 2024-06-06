@@ -1,4 +1,4 @@
-#include "add.h"
+
 #include <linux/kernel.h> /* Needed for KERN_INFO */
 #include <linux/module.h> /* Needed by all modules */
 static int __init hello_init(void)
@@ -9,7 +9,7 @@ static int __init hello_init(void)
      */
     int a = 0;
     int b = 1;
-    int c = add(a, b);
+
     return 0;
 }
 
