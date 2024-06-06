@@ -1,16 +1,15 @@
-// #include "add.h"
+#include "add.h"
 #include <linux/kernel.h> /* Needed for KERN_INFO */
 #include <linux/module.h> /* Needed by all modules */
 static int __init hello_init(void)
 {
-    int ret = 0;
-    int a = 1;
-    int b = 2;
-    // ret = func_add(a, b);
     printk(KERN_INFO "Hello world.\n");
     /*
      * A non 0 return means init_module failed; module can't be loaded.
      */
+    int a = 0;
+    int b = 1;
+    int c = add(a, b);
     return 0;
 }
 

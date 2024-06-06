@@ -13,12 +13,12 @@ PWD := $(shell pwd)
 
 all:
 	$(MAKE) -C $(KERN_DIR) M=$(PWD) modules 
-
+	$(CROSS_COMPILE)gcc -o drv_test drv_test.c 
 
 clean:
 	$(MAKE) -C $(KERN_DIR) M=$(PWD) clean
 	rm -rf modules.order
-
+	rm -f drv_test
 
 # 参考内核源码drivers/char/ipmi/Makefile
 # 要想把a.c, b.c编译成ab.ko, 可以这样指定:
@@ -27,7 +27,7 @@ clean:
 
 # leddrv.c board_demo.c 编译成 100ask.ko
 # 100ask_led-y := leddrv.o board_demo.o
-obj-m	+= hello_drv.o
+obj-m	+= drv.o
 
 
 
