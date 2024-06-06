@@ -16,7 +16,7 @@ function(compile_module obj)
     )
 
     # 设置依赖，相当于Makefile中的 $(MODULE_NAME)-objs += demo_main.o
-    set(depend_objlist "demo_main.o")
+    set(depend_objlist "b.o")
 
     # 设置编译命令
     add_custom_command(TARGET ${TARGET_NAME}
