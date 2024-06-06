@@ -14,3 +14,15 @@ doc/*.txt
 
 # 忽略 doc/ 目录及其所有子目录下的 .pdf 文件
 doc/**/*.pdf
+
+*.ko
+*.o
+*.order
+*.symvers
+*.tmp
+*.mod.c
+*.mod.o
+modules.order
+modules.builtin
+    
+    # 忽略所有的 .tmp 文件，包括那些在 /tmp 目录下

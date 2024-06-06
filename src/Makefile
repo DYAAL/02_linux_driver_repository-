@@ -15,10 +15,23 @@ mnt_directory = /home/book/remote/mnt_imx6ull
 ARCH ?= arm
 CROSS_COMPILE ?= arm-buildroot-linux-gnueabihf-
 
+
+module_srcs := $(filter-out %app.c, $(wildcard *.c))
+module_objs := $(patsubst %.c, %.o, $(module_srcs))
+$(module_name)-y := $(module_objs)
+obj-m += $(module_name).o
+
+app_srcs := $(filter %app.c, $(wildcard *.c))
+# ab-y := a.o b.o
+# obj-m += ab.o
+
 # 构建所有目标
-all:
+all: modules app
+
+modules:
 	$(MAKE) -C $(KERN_DIR) M=$(PWD) modules 
-	$(CROSS_COMPILE)gcc -o $(test_name) $(test_name).c 
+app:
+	$(CROSS_COMPILE)gcc -o $(test_name) $(app_srcs)
 
 # 清理生成的文件
 clean:
@@ -27,9 +40,13 @@ clean:
 	rm -f $(module_name).ko $(test_name)
 
 # 拷贝模块到指定目录
-cp:
-	mkdir -p $(mnt_directory)
+cp: cp_app cp_drv
+cp_app:
+	cp $(test_name) $(mnt_directory)
+cp_drv:
 	cp $(module_name).ko $(mnt_directory)
+	
 
-# 模块编译配置
-obj-m += $(module_name).o
+
+
+

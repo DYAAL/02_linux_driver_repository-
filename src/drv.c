@@ -1,14 +1,14 @@
 
 #include <linux/kernel.h> /* Needed for KERN_INFO */
 #include <linux/module.h> /* Needed by all modules */
+#include "add.h"
 static int __init hello_init(void)
 {
     printk(KERN_INFO "Hello world.\n");
     /*
      * A non 0 return means init_module failed; module can't be loaded.
      */
-    int a = 0;
-    int b = 1;
+    int c = add(1, 2);
 
     return 0;
 }
