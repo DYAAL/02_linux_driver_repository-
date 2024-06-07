@@ -3,7 +3,7 @@ KERN_DIR ?= /home/book/100ask_imx6ull-sdk/Linux-4.9.88
 
 # 获取当前路径
 PWD := $(shell pwd)
-
+APP_DIR := $(shell pwd)/../app
 # 模块名和测试名
 module_name := drv
 test_name := drv_test
@@ -28,7 +28,7 @@ obj-m += $(module_name).o
 # 将模块的所有对象文件加到模块名下
 
 # 获取所有以 _app.c 结尾的文件
-app_srcs := $(filter %_app.c, $(wildcard *.c))
+app_srcs := $(filter %_app.c, $(wildcard $(APP_DIR)/*.c))
 
 # 默认目标
 .PHONY: all modules app clean cp cp_app cp_drv
@@ -52,7 +52,7 @@ modules:
 	$(MAKE) -C $(KERN_DIR) M=$(PWD) modules
 
 app:
-	$(CROSS_COMPILE)gcc -o $(test_name) $(app_srcs)
+	$(CROSS_COMPILE)gcc -o $(test_name) -I$(APP_DIR) $(app_srcs)
 
 # 清理生成的文件
 clean:
