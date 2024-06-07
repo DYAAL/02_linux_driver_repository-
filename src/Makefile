@@ -22,7 +22,7 @@ module_objs := $(patsubst %.c, %.o, $(module_srcs))
 
 # 设置编译内核模块的目标
 drv-y := $(module_objs)
-drv-y :=  add_drv.o  hello_drv.o
+drv-y :=  driver_func_drv.o  main_drv.o
 $(info drv-y: $(drv-y))
 obj-m += $(module_name).o
 # 将模块的所有对象文件加到模块名下
@@ -60,6 +60,7 @@ clean:
 	rm -rf modules.order Module.symvers $(module_name).mod.c
 	rm -f $(module_name).ko $(test_name)
 	rm -f $(module_objs)
+	rm *.json
 
 # 拷贝模块到指定目录
 cp: cp_app cp_drv
