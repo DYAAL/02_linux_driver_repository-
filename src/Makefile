@@ -22,7 +22,7 @@ module_objs := $(patsubst %.c, %.o, $(module_srcs))
 
 # 设置编译内核模块的目标
 drv-y := $(module_objs)
-drv-y :=  driver_func_drv.o  main_drv.o
+drv-y :=  device_fuc_drv.o  driver_func_drv.o  main_drv.o
 $(info drv-y: $(drv-y))
 obj-m += $(module_name).o
 # 将模块的所有对象文件加到模块名下

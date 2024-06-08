@@ -14,8 +14,6 @@ MODULE_VERSION("1.0");
 static Hello_Device_T hello_device_t;
 
 
-
-
 static int __init hello_init(void)
 {
     printk(KERN_INFO "Hello, world!\n");

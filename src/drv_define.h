@@ -37,8 +37,9 @@ typedef struct {
     void (*resource_recycle)(Hello_Device_T this, Enum_Name recycle_type);
     int (*chr_dev_register)(Hello_Device_T this);
     int (*class_dev_register)(Hello_Device_T this);
-    int (*device_ioremap)(Hello_Device_T this, unsigned long phys_addr, unsigned long size);
+    int (*device_ioremap)(Hello_Device_T this, void* virt_addr, unsigned long phys_addr, unsigned long size);
     int (*device_iounmap)(Hello_Device_T this, void* virt_addr);
+    int (*device_exit)(Hello_Device_T this);
 } Functions_Pointer, *Functions_Pointer_T;
 
 // 现在可以完整定义Hello_Device结构体了
@@ -56,9 +57,14 @@ struct Hello_Device {
     const struct file_operations* fops;
 }; // 注意：这里的Hello_Device_T是重复的，但编译器通常允许
 
-int device_init(Hello_Device_T this, int flags);
+extern const struct file_operations device_fops;
+
+    int
+    device_init(Hello_Device_T this, int flags);
 void resource_recycle(Hello_Device_T this, Enum_Name recycle_type);
 int chr_dev_register(Hello_Device_T this);
 int class_dev_register(Hello_Device_T this);
-int device_ioremap(Hello_Device_T this, unsigned long phys_addr, unsigned long size);
+int device_ioremap(Hello_Device_T this, void* virt_addr, unsigned long phys_addr, unsigned long size);
+int device_iounmap(Hello_Device_T this, void* virt_addr);
+int device_exit(Hello_Device_T this);
 #endif // __DRV_DEFINE_H__
